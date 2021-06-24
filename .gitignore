@@ -1,0 +1,27 @@
+#NO_YP2_ENTRY_NEEDED
+
+# Ignore latex files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.glg*
+*.glo*
+*.gls*
+*.gz
+*.idx
+*.ind
+*.lof
+*.out
+*.dvi
+*.toc
+*.xdy
+
+# Ignore backups
+*.bak
+
+# Ignore build output
+/build/*
+
+# Ignore exported Zotero entries with generic name "Exportierte Einträge.bib"
+Exportierte Einträge.bib

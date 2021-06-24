@@ -1,0 +1,133 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{style}[Style package for paper]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Imports
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Spracheinstellungen
+\RequirePackage[ngerman]{babel}
+% [H] Platzierung
+\RequirePackage{float}
+% Referenzen mit Zusatzangaben
+\RequirePackage[german]{varioref}
+% Schriftauswahl
+\RequirePackage{fontspec}
+% Benannte Farben, Zeilenfärbung vor graphicx und tcolorbox
+\RequirePackage[table]{xcolor}
+% Optional Arguments-Handling
+\RequirePackage{xargs}
+% Textboxen
+\RequirePackage[listings,xparse,breakable,minted,skins]{tcolorbox}
+% Anführungszeichen
+\RequirePackage{csquotes}
+% Grafiken einfügen
+\RequirePackage{graphicx}
+% Grafiken halbseitig einfügen
+\RequirePackage{wrapfig}
+% Mathewerkzeuge
+\RequirePackage{mathtools}
+% SI Einheiten
+\RequirePackage{siunitx}
+% Titelreferenzen
+\RequirePackage{titleref}
+% Tabellen
+\RequirePackage{tabu}
+% Zeilenabstand
+\RequirePackage[onehalfspacing]{setspace}
+% KOMA-Script Mods für float,hyperref,listings,setspace
+\RequirePackage{scrhack}
+% hyperref als letzes
+\RequirePackage[unicode]{hyperref}
+% Glossareinträge nach hyperref
+\RequirePackage[toc,style=altlist,nonumberlist,abbreviations,xindy]{glossaries-extra}
+% Geometry nach hyperref
+\RequirePackage[paper=a4paper,margin=25mm]{geometry}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Formatierungskommandos
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareTotalTCBox{\File}{v}{verbatim,colupper=white,colback=black!75!white,colframe=black}{#1}
+\DeclareTotalTCBox{\Command}{v O{} O{} O{}}{verbatim,colupper=white,colback=black!75!white,colframe=black}{\ttfamily\bfseries\textcolor{red}{ > }\textcolor{cyan}{#1}{#2}\textcolor{cyan}{#3}{#4}}
+\DeclareTotalTCBox{\Code}{v}{verbatim,skin=enhanced,sharp corners,frame hidden}{#1}
+%\DeclareTotalTCBox{\Code}{v}{verbatim,skin=enhanced,sharp corners,colframe=blue}{#1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Abkürzungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\vref{#1}
+\newcommand{\abb}[1]{Abbildung \ref{#1}}
+\newcommand{\tab}[1]{Tabelle~\ref{#1}}
+\newcommand{\kap}[1]{Kapitel~\vref{#1}}
+\newcommand{\anh}[1]{\ref{#1} im Anhang}
+
+\newcommand*{\currentname}{\TR@currentTitle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Glosareinstellungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Abkürzungsstil
+%\setglossarystyle{long-short}
+%\setabbreviationstyle{long-short}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dokumenteneinstellungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Abstand bei neuem kapitel entfernen
+\RedeclareSectionCommand[beforeskip=0pt]{chapter}
+
+% Überschriften fett und röm. Schriftart
+%\addtokomafont{disposition}{\rmfamily}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Hurenkinder und Schusterjungen verhindern
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clubpenalty = 10000
+\widowpenalty = 10000
+\displaywidowpenalty = 10000
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Anhang Definition
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareTCBInputListing[blend into=figures]{\mylisting}{m m O{lang} O{unbenannt}}{
+	label={#1},
+	enhanced jigsaw,
+	breakable,
+	center title,
+	%title=\currenttitle,
+	listing only,
+	listing file={#2},
+	listing engine=minted,
+	list text={#4},
+	minted language={#3},
+	minted options={breaklines=true,breakanywhere=true}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Eigene Umgebungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newsavebox\mybox
+\newenvironment{resizedtikzpicture}[1]{%
+	\def\mywidth{#1}%
+	\begin{lrbox}{\mybox}%
+	\begin{tikzpicture}
+}{%
+	\end{tikzpicture}%
+	\end{lrbox}%
+	\resizebox{\mywidth}{!}{\usebox\mybox}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% TODO-Notes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\RequirePackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+\newcommandx{\sourceneeded}[2][1=]{\todo[linecolor=yellow,backgroundcolor=yellow!25,bordercolor=yellow,#1]{#2}}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}

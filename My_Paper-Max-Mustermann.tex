@@ -1,0 +1,114 @@
+% arara: lualatex: { interaction: nonstopmode, synctex: no, shell: yes }
+% arara: biber
+% arara: lualatex: { interaction: nonstopmode, synctex: no, shell: yes }
+% arara: lualatex: { interaction: nonstopmode, synctex: yes, shell: yes }
+\documentclass[a4paper,12pt,chapterprefix=false,bibliography=totoc,listof=totoc]{scrreprt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Stil
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{style}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Literaturverzeichnis
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[sorting=none,backend=biber]{biblatex}
+\addbibresource{Literaturverzeichnis.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Angaben zur Arbeit
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Typ}{Seminararbeit}
+\newcommand{\Titel}{Mein Titel}
+\newcommand{\AbgabeDatum}{31.12.1990}
+\newcommand{\Dauer}{01.01.1990 - 31.12.1990}
+\newcommand{\Abschluss}{Bachelor of Science}
+\newcommand{\Studiengang}{Informatik}
+
+\newcommand{\Autor}{Max Mustermann}
+\newcommand{\MatrikelNummer}{0123456}
+\newcommand{\Kursbezeichnung}{KURS2}
+\newcommand{\Universitaet}{Universität Musterstadt}
+
+\newcommand{\Ort}{Musterstadt}
+\newcommand{\BetreuerUni}{Erika Mustermann}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Linkeinstellungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\hypersetup{
+	pdfauthor={\Autor},
+	pdftitle={\Titel},
+	pdfsubject={\Typ},
+	colorlinks,
+	breaklinks,
+	linkcolor=blue,
+	urlcolor=green,
+	citecolor=orange,
+	filecolor=red,
+	anchorcolor=red
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Glosareinstellungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setabbreviationstyle[abbreviation]{long-short}
+\setabbreviationstyle[acronym]{long-short}
+
+\glssetcategoryattribute{general}{nohyper}{true}
+\glssetcategoryattribute{abbreviation}{nohyper}{true}
+\glssetcategoryattribute{acronym}{nohyper}{true}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% TikZ Einstellungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usetikzlibrary{positioning}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Einheitendarstellung
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\sisetup{per-mode=symbol,binary-units=true,round-mode=places,round-precision=2,locale=DE}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Formatierungseinstellungen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setlength\parindent{0pt}
+\setlength{\marginparwidth}{2cm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{Abkuerzungsverzeichnis.tex}
+\input{Glossar.tex}
+
+\begin{document}
+\shorthandoff{"}
+\input{vorlagen/Titelseite.tex}
+
+\input{vorlagen/Erklaerung.tex}
+
+\input{vorlagen/Inhaltsverzeichnis.tex}
+
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\input{kapitel/Motivation.tex}
+\input{kapitel/Grundlagen.tex}
+\input{kapitel/Analyse.tex}
+\input{kapitel/Fazit.tex}
+
+\input{Anhang.tex}
+
+% Uncomment if you need to display table of notes
+% \listoftodos[Notes]
+
+\listoffigures
+\printbibliography
+\end{document}
